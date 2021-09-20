@@ -1,62 +1,42 @@
 import os
 
 def menu_interface():
+    asd = os.popen("ifconfig -a | sed 's/[ \t].*//;/^$/d'").read()
     print("-----------Menu for interface------------")
-    print("1.wlp7s0")
-    print("2.enp14s0")
+    asd = " ".join(asd.split(":\n"))
+    print(asd.replace(' ', '\n'))
 
 def Assign_IP_address():
     menu_interface()
-    choice = int(input("Enter your choice : "))
-    if choice == 1:
-        ip = input("Enter the ip address to assign :")
-        cmd =f"sudo ip address add {ip} dev wlp7s0"
-        ip_assign = os.popen(cmd).read()
-        print(os.popen("ip -4 a show wlp7s0").read())
-    elif choice == 2:
-        ip = input("Enter the ip address to assign :")
-        cmd = f"sudo ip address add {ip} dev enp14s0"
-        ip_assign = os.popen(cmd).read()
-        print(os.popen("ip -4 a show enp14s0").read())
+    interface = input("Enter the interface name : ")
+    ip = input("Enter the ip address to assign :")
+    cmd =f"sudo ip address add {ip} dev {interface}"
+    ip_assign = os.popen(cmd).read()
+    print(os.popen(f"ip -4 a show {interface}").read())
 
 def Delete_IP_address():
     menu_interface()
-    choice = int(input("Enter your choice : "))
-    if choice == 1:
-        ip = input("Enter the ip address to delete :")
-        cmd =f"sudo ip address add {ip} dev wlp7s0"
-        ip_assign = os.popen(cmd).read()
-        print(os.popen("ip -4 a show wlp7s0").read())
-    elif choice == 2:
-        ip = input("Enter the ip address to delete :")
-        cmd = f"sudo ip address add {ip} dev enp14s0"
-        ip_assign = os.popen(cmd).read()
-        print(os.popen("ip -4 a show enp14s0").read())
+    interface = input("Enter the interface name : ")
+    ip = input("Enter the ip address to delete :")
+    cmd =f"sudo ip address add {ip} dev {interface}"
+    ip_assign = os.popen(cmd).read()
+    print(os.popen(f"ip -4 a show {interface}").read())
 
 def Display_IP_address():
     menu_interface()
-    ch = int(input("Enter the choice"))
-    if ch == 1:
-        print(os.popen("ip -4 a show wlp7s0").read())
-    elif ch == 2:
-        print(os.popen("ip -4 a show enp14s0").read())
+    interface = input("Enter the interface name : ")
+    print(os.popen(f"ip -4 a show {interface}").read())
 
 def Display_all_interfaces():
     print(os.popen("ip l").read())
 
 def Configure_routing():
     menu_interface()
-    choice = int(input("Enter your choice : "))
-    if choice == 1:
-        ip = input("Enter the ip address to delete :")
-        cmd =f"sudo ip r add 10.2.3.0/24 via {ip} dev wlp7s0"
-        ip_assign = os.popen(cmd).read()
-        print(os.popen("ip r").read())
-    elif choice == 2:
-        ip = input("Enter the ip address to delete :")
-        cmd = f"sudo ip r add 20.2.3.0/26 via {ip} dev enp14s0"
-        ip_assign = os.popen(cmd).read()
-        print(os.popen("ip r").read())
+    interface = input("Enter the interface name : ")
+    ip = input("Enter the ip address to delete :")
+    cmd =f"sudo ip r add 10.2.3.0/24 via {ip} dev {interface}"
+    ip_assign = os.popen(cmd).read()
+    print(os.popen("ip r").read())
 
 def Turn_OnOff_interface():
     while True:
@@ -65,23 +45,31 @@ def Turn_OnOff_interface():
         print("3.exit")
         ch = int(input("Enter the choice"))
         if ch == 1:
-            cmd = "sudo ip link set dev wlp7s0 un"
+            menu_interface()
+            interface = input("Enter the interface name : ")
+            cmd = f"sudo ip link set dev {interface} un"
             on = os.popen(cmd).read()
             print(os.popen("ip a").read())
         elif ch == 2:
-            cmd = "sudo ip link set dev wlp7s0 down"
+            menu_interface()
+            interface = input("Enter the interface name : ")
+            cmd = f"sudo ip link set dev {interface} down"
             off = os.popen(cmd).read()
             print(os.popen("ip a").read())
         else:
             break
 
 def Add_ARP_entry():
-    cmd = "sudo ip n add 192.168.1.10 lladdr 00:45:78:52:ed:55 dev wlp7s0 nud permanent"
+    menu_interface()
+    interface = input("Enter the interface name : ")
+    cmd = f"sudo ip n add 192.168.1.10 lladdr 00:45:78:52:ed:55 dev {interface} nud permanent"
     arp = os.popen(cmd).read()
     print(os.popen("ip n show").read())
 
 def Delete_ARP_Entry():
-    cmd = "sudo ip n flush 192.168.1.10 dev wlp7s0 nud permanent"
+    menu_interface()
+    interface = input("Enter the interface name : ")
+    cmd = f"sudo ip n flush 192.168.1.10 dev {interface} nud permanent"
     arp = os.popen(cmd).read()
     print(os.popen("ip n show").read())
 
