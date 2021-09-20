@@ -18,7 +18,7 @@ def Delete_IP_address():
     menu_interface()
     interface = input("Enter the interface name : ")
     ip = input("Enter the ip address to delete :")
-    cmd =f"sudo ip address add {ip} dev {interface}"
+    cmd =f"sudo ip address del {ip} dev {interface}"
     ip_assign = os.popen(cmd).read()
     print(os.popen(f"ip -4 a show {interface}").read())
 
