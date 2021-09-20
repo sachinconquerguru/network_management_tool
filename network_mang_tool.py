@@ -33,7 +33,7 @@ def Display_all_interfaces():
 def Configure_routing():
     menu_interface()
     interface = input("Enter the interface name : ")
-    ip = input("Enter the ip address to delete :")
+    ip = input("Enter the ip address :")
     cmd =f"sudo ip r add 10.2.3.0/24 via {ip} dev {interface}"
     ip_assign = os.popen(cmd).read()
     print(os.popen("ip r").read())
@@ -62,14 +62,16 @@ def Turn_OnOff_interface():
 def Add_ARP_entry():
     menu_interface()
     interface = input("Enter the interface name : ")
-    cmd = f"sudo ip n add 192.168.1.10 lladdr 00:45:78:52:ed:55 dev {interface} nud permanent"
+    ip = input("Enter the ip address :")
+    cmd = f"sudo ip n add {ip} lladdr 00:45:78:52:ed:55 dev {interface} nud permanent"
     arp = os.popen(cmd).read()
     print(os.popen("ip n show").read())
 
 def Delete_ARP_Entry():
     menu_interface()
     interface = input("Enter the interface name : ")
-    cmd = f"sudo ip n flush 192.168.1.10 dev {interface} nud permanent"
+    ip = input("Enter the ip address :")
+    cmd = f"sudo ip n flush {ip} dev {interface} nud permanent"
     arp = os.popen(cmd).read()
     print(os.popen("ip n show").read())
 
@@ -78,7 +80,8 @@ def Restart_Network():
     print(os.popen(cmd).read())
 
 def Change_hostname():
-    cmd = "sudo hostname sachin"
+    name = input("Enter the name you want change as host name : ")
+    cmd = f"sudo hostname {name}"
     change_host = os.popen(cmd).read()
     print(os.popen("hostnamectl status").read())
 
