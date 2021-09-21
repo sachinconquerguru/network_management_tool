@@ -47,7 +47,7 @@ def Turn_OnOff_interface():
         if ch == 1:
             menu_interface()
             interface = input("Enter the interface name : ")
-            cmd = f"sudo ip link set dev {interface} un"
+            cmd = f"sudo ip link set dev {interface} up"
             on = os.popen(cmd).read()
             print(os.popen("ip a").read())
         elif ch == 2:
